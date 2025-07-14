@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGMI Loader - Premium BGMI Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            min-height: 100vh;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.85);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff4655;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #ff4655, #ff8e00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+        }
+        
+        .logo-icon {
+            color: #ff4655;
+            font-size: 1.8rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .youtube-btn:hover {
+            background: #ff0000;
+            border-color: #ff0000;
+        }
+        
+        .instagram-btn:hover {
+            background: #e1306c;
+            border-color: #e1306c;
+        }
+        
+        .support-btn:hover {
+            background: #25d366;
+            border-color: #25d366;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .welcome-text {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 70, 85, 0.7);
+            background: linear-gradient(to right, #ff8e00, #ff4655);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .product-card {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 70, 85, 0.5);
+        }
+        
+        .product-header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 70, 85, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #ff4655;
+        }
+        
+        .product-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+        
+        .product-body {
+            padding: 20px;
+        }
+        
+        .product-feature {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-value {
+            color: #ff8e00;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #ff4655;
+            text-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+        }
+        
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #ff4655, #ff8e00);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 70, 85, 0.4);
+        }
+        
+        .bgmi-images {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .bgmi-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .bgmi-image:hover {
+            transform: scale(1.05);
+            border-color: #ff4655;
+        }
+        
+        .bgmi-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            margin-top: 50px;
+            border-top: 2px solid #ff4655;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+        
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: rgba(30, 30, 40, 0.95);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid #ff4655;
+            box-shadow: 0 0 30px rgba(255, 70, 85, 0.3);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #ff4655;
+            margin-bottom: 20px;
+        }
+        
+        .modal-text {
+            margin: 15px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .highlight {
+            color: #ff8e00;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confirm-btn {
+            background: linear-gradient(to right, #25d366, #128C7E);
+            color: white;
+        }
+        
+        .cancel-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+            }
+            
+            .hero {
+                padding: 60px 15px 30px;
+            }
+            
+            .product-price {
+                font-size: 1.8rem;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-text {
+                font-size: 2rem;
+            }
+            
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="logo-text">BGMILOADER</div>
+        </div>
+        <div class="quick-links">
+            <a href="https://youtube.com/@berry_gaming2.0?si=iUWo-oxLWTZVkWps" class="social-btn youtube-btn" target="_blank">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.instagram.com/my_god_loveyou?igsh=MTllZjU3NnlqbDQxaw==" class="social-btn instagram-btn" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://t.me/+iqp-mAC-fwQ1YWNl" class="social-btn support-btn" target="_blank">
+                <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1 class="welcome-text">WELCOME TO BGMI LOADER</h1>
+        <div class="description">
+            BGMI (Battlegrounds Mobile India) is the Indian version of the popular battle royale game PUBG Mobile. 
+            BGMI Loader provides premium services to enhance your gaming experience with our exclusive BGMI Magic tools. 
+            Get the competitive edge with our safe and reliable services designed for serious players.
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="products">
+        <!-- Product 1 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">1 Day</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">99₹</div>
+                <button class="buy-btn" data-price="99" data-days="1">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">3 Days</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">199₹</div>
+                <button class="buy-btn" data-price="199" data-days="3">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">7 Days</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">349₹</div>
+                <button class="buy-btn" data-price="349" data-days="7">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">15 Days</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">549₹</div>
+                <button class="buy-btn" data-price="549" data-days="15">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">30 Days</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">849₹</div>
+                <button class="buy-btn" data-price="849" data-days="30">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card">
+            <div class="product-header">
+                <h2 class="product-title">BGMI MAGIC</h2>
+                <p class="product-desc">Premium BGMI Enhancement Tool</p>
+            </div>
+            <div class="product-body">
+                <div class="product-feature">
+                    <span>Duration:</span>
+                    <span class="feature-value">60 Days</span>
+                </div>
+                <div class="product-feature">
+                    <span>Features:</span>
+                    <span class="feature-value">All Premium</span>
+                </div>
+                <div class="product-feature">
+                    <span>Support:</span>
+                    <span class="feature-value">24/7</span>
+                </div>
+                <div class="product-price">1499₹</div>
+                <button class="buy-btn" data-price="1499" data-days="60">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BGMI Images Gallery -->
+    <div class="bgmi-images">
+        <div class="bgmi-image">
+            <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600" alt="BGMI Gameplay">
+        </div>
+        <div class="bgmi-image">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600" alt="BGMI Weapons">
+        </div>
+        <div class="bgmi-image">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600" alt="BGMI Character">
+        </div>
+        <div class="bgmi-image">
+            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600" alt="BGMI Battle">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="quick-links">
+            <a href="https://youtube.com/@berry_gaming2.0?si=iUWo-oxLWTZVkWps" class="social-btn youtube-btn" target="_blank">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.instagram.com/my_god_loveyou?igsh=MTllZjU3NnlqbDQxaw==" class="social-btn instagram-btn" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://t.me/+iqp-mAC-fwQ1YWNl" class="social-btn support-btn" target="_blank">
+                <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+        <p class="copyright">© 2023 BGMI Loader. All rights reserved. This is an unofficial fan site and is not affiliated with KRAFTON, Inc.</p>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Complete Your Purchase</h2>
+            <p class="modal-text">Please make payment of <span class="highlight" id="paymentAmount">₹99</span> to the following UPI ID:</p>
+            <p class="modal-text highlight">himanshukok16@oksbi</p>
+            <p class="modal-text">After payment, join our Telegram group and send your payment screenshot to get your BGMI Magic activated.</p>
+            <div class="modal-buttons">
+                <a href="https://t.me/+-_LrO-qjlI01MzE1" class="modal-btn confirm-btn" target="_blank">
+                    Join Telegram Group
+                </a>
+                <button class="modal-btn cancel-btn" id="closeModal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Payment Modal Functionality
+        const paymentModal = document.getElementById('paymentModal');
+        const closeModal = document.getElementById('closeModal');
+        const paymentAmount = document.getElementById('paymentAmount');
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const price = button.getAttribute('data-price');
+                const days = button.getAttribute('data-days');
+                paymentAmount.textContent = `₹${price} (${days} days)`;
+                paymentModal.classList.add('active');
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            paymentModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside the content
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.classList.remove('active');
+            }
+        });
+        
+        // Prevent modal content click from closing modal
+        document.querySelector('.modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
