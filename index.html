@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGMI Game Server Control Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>BGMI Control</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#players" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Players</span>
+                </a>
+                <a href="#matches" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Matches</span>
+                </a>
+                <a href="#bans" class="nav-item">
+                    <i class="fas fa-ban"></i>
+                    <span>Bans</span>
+                </a>
+                <a href="#events" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Events</span>
+                </a>
+                <a href="#shop" class="nav-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Shop</span>
+                </a>
+                <a href="#economy" class="nav-item">
+                    <i class="fas fa-coins"></i>
+                    <span>Economy</span>
+                </a>
+                <a href="#logs" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Logs</span>
+                </a>
+                <a href="#settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="server-info">
+                <div class="info-item">
+                    <i class="fas fa-server"></i>
+                    <span id="serverStatus">Online</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="uptime">0h</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationCount">0</span>
+                    </div>
+                    <div class="admin-profile">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard" class="content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Active Players</span>
+                            <span class="stat-value" id="activePlayers">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-plus"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Players</span>
+                            <span class="stat-value" id="totalPlayers">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Matches</span>
+                            <span class="stat-value" id="totalMatches">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-bolt"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Server Load</span>
+                            <span class="stat-value" id="serverLoad">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Active Players (24h)</h3>
+                        <canvas id="activePlayersChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Matches Played (24h)</h3>
+                        <canvas id="matchesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-matches">
+                    <h3>Recent Matches</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Match ID</th>
+                                <th>Mode</th>
+                                <th>Map</th>
+                                <th>Players</th>
+                                <th>Winner</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matchesTable">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="server-controls">
+                    <h3>Server Controls</h3>
+                    <div class="control-buttons">
+                        <button class="btn btn-primary" onclick="controlServer('restart')">
+                            <i class="fas fa-redo-alt"></i> Restart Server
+                        </button>
+                        <button class="btn btn-warning" onclick="controlServer('maintenance')">
+                            <i class="fas fa-tools"></i> Maintenance Mode
+                        </button>
+                        <button class="btn btn-danger" onclick="controlServer('shutdown')">
+                            <i class="fas fa-power-off"></i> Shutdown
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Players Content -->
+            <div id="players" class="content">
+                <div class="content-header">
+                    <h2>Players Management</h2>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search players..." id="playerSearch">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player ID</th>
+                            <th>Username</th>
+                            <th>Level</th>
+                            <th>Rank</th>
+                            <th>K/D</th>
+                            <th>Wins</th>
+                            <th>Play Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playersTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bans Content -->
+            <div id="bans" class="content">
+                <div class="content-header">
+                    <h2>Ban Management</h2>
+                    <button class="btn btn-primary" onclick="showAddBan()">
+                        <i class="fas fa-plus"></i> Add Ban
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Reason</th>
+                            <th>Duration</th>
+                            <th>Banned By</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bansTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban Modal -->
+    <div id="banModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('banModal')">&times;</span>
+            <h2>Ban Player</h2>
+            <form id="banForm">
+                <div class="form-group">
+                    <label>Player ID</label>
+                    <input type="text" id="banPlayerId" required>
+                </div>
+                <div class="form-group">
+                    <label>Reason</label>
+                    <select id="banReason">
+                        <option value="cheating">Cheating / Hacking</option>
+                        <option value="harassment">Harassment</option>
+                        <option value="teamkilling">Team Killing</option>
+                        <option value="exploiting">Exploiting</option>
+                        <option value="toxicity">Toxic Behavior</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Duration (hours)</label>
+                    <input type="number" id="banDuration" value="24" min="1" max="720">
+                </div>
+                <button type="submit" class="btn btn-danger">Ban Player</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
